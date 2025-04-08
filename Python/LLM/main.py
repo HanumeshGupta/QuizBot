@@ -1,13 +1,11 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.vectorstores import FAISS
-from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
-from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_ollama import OllamaEmbeddings
 from langchain_ollama.llms import OllamaLLM
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
+
 
 os.environ["OLLAMA_MODELS_PATH"] = r"Z:\OLLAMA\models"  # Path of Ollama
 
@@ -23,7 +21,7 @@ Context : {context}
 
 # This define the Input PDF Vectors
 def create_vector_store(data):
-   loader = PyPDFLoader(data)
+   loader =  (data)
    documents = loader.load()
 
    text_splitter = RecursiveCharacterTextSplitter(
@@ -74,7 +72,8 @@ def generate_mcq (n_question,difficulty,n_option, documents) :
     )
 
     prompt = ChatPromptTemplate.from_template(template)
-    context = "\n\n".join([doc.page_content for doc in documents])
+    # context = "\n\n".join([doc.page_content for doc in documents])
+    context = "\n\n".join([doc.page_content for doc in documents[:5]])  # use fewer chunks
 
     chain = prompt | model
 
@@ -86,4 +85,15 @@ def generate_mcq (n_question,difficulty,n_option, documents) :
     })
 
     return result
+
+def load_full_document(data_path):
+    loader = PyPDFLoader(data_path)
+    documents = loader.load()
+
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=2000,
+        chunk_overlap=300,
+        add_start_index=True
+    )
+    return text_splitter.split_documents(documents)
 

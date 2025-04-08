@@ -1,8 +1,11 @@
 import main
+import warnings
+warnings.filterwarnings("ignore")
+
 
 pdf_path = r"D:\Code\QuizBot\data\STA.pdf"
-db = main.create_vector_store(pdf_path)
-docs = main.retrieve_docs(db, query="", k=5)
 
-mcqs = main.generate_mcq(n_question=5, difficulty="medium", n_option=4, documents=db)
+full_docs = main.load_full_document(pdf_path)
+
+mcqs = main.generate_mcq(n_question=10, difficulty="easy", n_option=4, documents=full_docs)
 print(mcqs)
