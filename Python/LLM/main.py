@@ -5,6 +5,7 @@ from langchain_ollama import OllamaEmbeddings
 from langchain_ollama.llms import OllamaLLM
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
+import re
 
 
 os.environ["OLLAMA_MODELS_PATH"] = r"Z:\OLLAMA\models"  # Path of Ollama
@@ -83,6 +84,8 @@ def generate_mcq (n_question,difficulty,n_option, documents) :
         "n_option": n_option,
         "context": context
     })
+    if isinstance(result, str):
+        result = re.sub(r"<think>.*?</think>", "", result, flags=re.DOTALL).strip()
 
     return result
 
