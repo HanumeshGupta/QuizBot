@@ -2,7 +2,7 @@ import streamlit as st
 import main as main
 
 st.title("Chat with PDFs with Deepseek")
-data = r"QuizBot\data\SOP.pdf"
+data = r"D:\Code\QuizBot\data\SOP.pdf"
 # uploaded_file = st.file_uploader(
 #     "Upload PDF",
 #     type = "pdf",
@@ -41,4 +41,4 @@ if question:
 
     with st.chat_message("assistant"):
         st.write(answer)
-
+    print(answer)

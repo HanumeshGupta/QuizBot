@@ -1,6 +1,8 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.vectorstores import FAISS
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_ollama import OllamaEmbeddings
 from langchain_ollama.llms import OllamaLLM
@@ -17,7 +19,7 @@ template = """Given the question, provide a detailed context that includes relev
 Question : {question}
 Context : {context}
 """
-# template ="You are the model that generate easy 10 MCQ [Multiple Choice Question] from the PDF given above. Also make 4 options from which one is correct, add answer of the question to."
+
 
 # This define the Input PDF Vectors
 def create_vector_store(data):
@@ -36,7 +38,6 @@ def create_vector_store(data):
 
 # This search for Similarity in data [For Chat Bot]
 def retrieve_docs(db,query,k=4):
-    print(db.similarity_search(query))
     return db.similarity_search(query,k)
 
 # This generate Output
@@ -56,3 +57,33 @@ def question_pdf(question,documents):
 #     print(documents[0])  # Access the first document
 # else:
 #     print("No documents found in the specified directory.")
+
+
+
+### This is for MCQ generator  
+
+def generate_mcq (n_question,difficulty,n_option, documents) :
+    
+    template = (
+        "You are an AI model designed to generate multiple-choice questions (MCQs). "
+        "Your task is to create {n_question} MCQs based on the content of the provided PDF. "
+        "Each question should match the {difficulty} difficulty level. For each question, provide "
+        "{n_option} answer choices, with only one correct answer. At the end of each question, include "
+        "the correct answer labeled clearly.\n\n"
+        "Content:\n{context}"
+    )
+
+    prompt = ChatPromptTemplate.from_template(template)
+    context = "\n\n".join([doc.page_content for doc in documents])
+
+    chain = prompt | model
+
+    result = chain.invoke({
+        "n_question": n_question,
+        "difficulty": difficulty,
+        "n_option": n_option,
+        "context": context
+    })
+
+    return result
+
