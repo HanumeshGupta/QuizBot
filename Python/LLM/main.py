@@ -42,6 +42,10 @@ def retrieve_docs(db,query,k=4):
 # This generate Output
 def question_pdf(question,documents):
     context = "\n\n".join([doc.page_content for doc in documents])
+    template = """Given the question, provide a detailed context that includes relevant background information, key concepts, and any necessary definitions to help understand the question fully.
+    Question : {question}
+    Context : {context}
+    """
     prompt = ChatPromptTemplate.from_template(template)
     chain = prompt | model
 
