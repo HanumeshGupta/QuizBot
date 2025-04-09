@@ -1,0 +1,66 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - QuizBot</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body class="auth-page">
+<div class="back">
+  <div class="auth-container">
+    <h2>Login to QuizBot</h2>
+    <form id="loginForm" novalidate>
+      <div class="error-message" id="loginError"></div>
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      
+      <button type="submit">Login</button>
+      <p><a href="#" onclick="recoverPassword()">Forgot password?</a></p>
+      <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+    </form>
+  </div>
+</div>
+
+  <script>
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      window.location.href = "tool.html";
+    }
+
+    const togglePassword = document.getElementById("togglePassword");
+    const password = document.getElementById("password");
+    togglePassword.addEventListener("change", () => {
+      password.type = togglePassword.checked ? "text" : "password";
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const passwordVal = document.getElementById('password').value;
+      const storedUser = JSON.parse(localStorage.getItem('quizbotUser'));
+      const error = document.getElementById('loginError');
+
+      if (!storedUser || storedUser.email !== email || storedUser.password !== passwordVal) {
+        error.textContent = "Invalid email or password.";
+        error.style.display = "block";
+        return;
+      }
+
+      localStorage.setItem('isLoggedIn', "true");
+      alert("Login successful!");
+      window.location.href = ".html";
+    });
+
+    function recoverPassword() {
+      const email = prompt("Enter your registered email:");
+      const user = JSON.parse(localStorage.getItem("quizbotUser"));
+      if (user && user.email === email) {
+        alert("Your password is: " + user.password);
+      } else {
+        alert("No account found with that email.");
+      }
+    }
+  </script>
+</body>
+</html>

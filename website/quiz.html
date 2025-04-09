@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuizBot - AI Quiz Generator</title>
+  <link href="styles.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: var(--navbar-text);
+  transition: 0.3s;
+}
+
+/* Mobile Nav */
+@media screen and (max-width: 768px) {
+  .navbar nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--navbar-bg);
+    width: 100%;
+    flex-direction: column;
+    display: none;
+    padding: 10px 20px;
+  }
+
+  .navbar nav.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+  </style>
+</head>
+<body class="bg-white text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-primary text-white">
+    <div class="container flex justify-between items-center py-4">
+      <div class="flex items-center space-x-3">
+        <a href="quiz.html"><img src="./image/logo-removebg-preview.png" alt="QuizBot Logo" class="h-10 w-10"></a>
+        <h1 class="text-2xl font-bold">QuizBot</h1>
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    
+      <nav class="space-x-6 hidden md:block">
+        <a href="features.html" class="nav-link">Features</a>
+        <a href="#demo" class="nav-link">Demo</a>
+        <a href="pricing.html" class="nav-link">Pricing</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-primary text-white text-center py-24 px-6">
+    <h2 class="text-5xl font-bold mb-4">Create Smart Quizzes in Seconds</h2>
+    <p class="text-xl mb-6">Let AI generate interactive, customizable quizzes with ease.</p>
+    <a href="login.html">
+      <button class="btn-white">🎯Get Started</button>
+    </a>
+    
+  </section>
+  <!-- PDF Upload / MCQ Generator Section -->
+<section id="upload" class="container py-20 px-6">
+  <h3 class="section-title mb-6">Upload PDF to Generate MCQs</h3>
+
+  <div class="bg-gray-50 p-8 rounded-lg border-2 border-dashed border-primary text-center">
+    <p class="mb-4 text-gray-700 font-medium">Drag and drop your PDF here, or click to upload.</p>
+    <input type="file" id="pdfUpload" accept=".pdf" class="hidden" />
+    <label for="pdfUpload" class="cursor-pointer inline-block px-6 py-3 bg-primary text-white font-bold rounded hover:bg-opacity-80">
+      Upload PDF
+    </label>
+
+    <div id="uploadStatus" class="mt-4 text-sm text-gray-600 hidden">Processing your file...</div>
+
+    <a href="signup.html"><button  id="generateBtn" class="btn-primary mt-6"  >Generate MCQs</button></a>
+  </div>
+
+  <div id="mcqOutput" class="mt-12 space-y-6"></div>
+</section>
+
+
+  <!-- Features -->
+  <section id="features" class="container py-20 px-6">
+    <h3 class="section-title">Key Features</h3>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div><h4 class="feature-title">🧠 User-Friendly Interface</h4><p>Create quizzes easily without any technical knowledge.</p></div>
+      <div><h4 class="feature-title">📋 Multiple Question Types</h4><p>Support for MCQs, true/false, short answer, and more.</p></div>
+      <div><h4 class="feature-title">🎨 Customization Options</h4><p>Change colors, themes, and add images to match your brand.</p></div>
+      <div><h4 class="feature-title">📊 Analytics Dashboard</h4><p>Track performance and engagement with real-time insights.</p></div>
+      <div><h4 class="feature-title">🔗 Easy Sharing & Embedding</h4><p>Share quizzes on social media or embed them on your website.</p></div>
+    </div>
+  </section>
+
+  <!-- Demo -->
+  <section id="demo" class="bg-gray-100 py-20 px-6">
+    <div class="container text-center">
+      <h3 class="section-title mb-6">Looks Like: </h3>
+      <iframe src="https://example.com/demo-quiz" class="w-full h-96 border rounded-lg" title="Demo Quiz"></iframe>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="container py-20 px-6">
+    <h3 class="section-title mb-10">What Users Are Saying</h3>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="testimonial-card"><p>"QuizBot made it super easy for me to create engaging quizzes for my students!"</p><p class="author">– Alex T.</p></div>
+      <div class="testimonial-card"><p>"Love the customization and analytics features. Helps us run better campaigns."</p><p class="author">– Morgan L.</p></div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="flex flex-wrap justify-center gap-8 px-6 pb-20">
+    <!-- Free Plan -->
+    <div class="bg-white card-hover rounded-xl p-8 w-full sm:w-72 text-center border-t-4 border-gray-300 cursor-pointer"
+         data-plan="free"
+         onclick="redirectToPayment(this)">
+      <h3 class="text-xl font-bold mb-2">Free</h3>
+      <p class="text-gray-600 mb-4">Basic quiz creation for individuals.</p>
+      <p class="text-3xl font-bold mb-4">$0<span class="text-sm text-gray-500">/mo</span></p>
+      <ul class="text-left mb-6 space-y-2">
+        <li>✅ Unlimited Quiz Creation</li>
+        <li>✅ PDF Upload</li>
+        <li>❌ Custom Themes</li>
+        <li>❌ Analytics Dashboard</li>
+      </ul>
+      <span class="bg-[#00899f] text-white py-2 px-4 rounded inline-block">Start Free</span>
+    </div>
+
+    <!-- Basic Plan -->
+    <div class="bg-white card-hover rounded-xl p-8 w-full sm:w-72 text-center border-t-4 border-blue-400 cursor-pointer"
+         data-plan="basic"
+         onclick="redirectToPayment(this)">
+      <h3 class="text-xl font-bold mb-2">Basic</h3>
+      <p class="text-gray-600 mb-4">More power for educators and teams.</p>
+      <p class="text-3xl font-bold mb-4">$9<span class="text-sm text-gray-500">/mo</span></p>
+      <ul class="text-left mb-6 space-y-2">
+        <li>✅ Unlimited Quiz Creation</li>
+        <li>✅ PDF Upload</li>
+        <li>✅ Custom Themes</li>
+        <li>❌ Analytics Dashboard</li>
+      </ul>
+      <span class="bg-[#00899f] text-white py-2 px-4 rounded inline-block">Get Basic</span>
+    </div>
+
+    <!-- Premium Plan -->
+    <div class="bg-white card-hover rounded-xl p-8 w-full sm:w-72 text-center border-t-4 border-yellow-400 cursor-pointer"
+         data-plan="premium"
+         onclick="redirectToPayment(this)">
+      <h3 class="text-xl font-bold mb-2">Premium</h3>
+      <p class="text-gray-600 mb-4">All features for professionals and orgs.</p>
+      <p class="text-3xl font-bold mb-4">$19<span class="text-sm text-gray-500">/mo</span></p>
+      <ul class="text-left mb-6 space-y-2">
+        <li>✅ Unlimited Quiz Creation</li>
+        <li>✅ PDF Upload</li>
+        <li>✅ Custom Themes</li>
+        <li>✅ Analytics Dashboard</li>
+      </ul>
+      <span class="bg-[#00899f] text-white py-2 px-4 rounded inline-block">Get Premium</span>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="container py-20 px-6">
+    <h3 class="section-title mb-10 text-center">Frequently Asked Questions</h3>
+    <div class="space-y-6">
+      <details class="faq-item">
+        <summary>Can I use QuizBot for free?</summary>
+        <p>Yes! Our Free plan lets you try out core features with no cost.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What formats are supported for quiz creation?</summary>
+        <p>We support MCQs, true/false, short answers, and file uploads (PDFs).</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is there any limit on quiz attempts?</summary>
+        <p>No limits for Premium users. Free users have up to 5 quizzes per month.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white py-6">
+    <div class="container flex flex-col md:flex-row justify-between items-center">
+      <p>© 2025 QuizBot. All rights reserved.</p>
+      <div class="space-x-4 mt-2 md:mt-0">
+        <a href="#privacy" class="hover:underline">Privacy Policy</a>
+        <a href="#terms" class="hover:underline">Terms of Service</a>
+        <a href="#contact" class="hover:underline">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+<script>
+  function toggleMenu() {
+    const nav = document.getElementById("navLinks");
+    nav.classList.toggle("active");
+  }
+  function redirectToPayment(card) {
+      const plan = card.getAttribute("data-plan");
+
+      let paymentURL;
+      switch (plan) {
+        case "free":
+          alert("The Free plan doesn't require payment. Redirecting to signup.");
+          paymentURL = "signup.html";
+          break;
+        case "basic":
+          paymentURL = "https://your-payment-gateway.com/pay/basic";
+          break;
+        case "premium":
+          paymentURL = "https://your-payment-gateway.com/pay/premium";
+          break;
+        default:
+          paymentURL = "#";
+      }
+
+      window.location.href = paymentURL;
+    }
+</script>
+
+</html>
