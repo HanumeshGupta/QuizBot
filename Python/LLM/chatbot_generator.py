@@ -9,11 +9,11 @@ from langchain_community.embeddings import OllamaEmbeddings
 from langchain_ollama.llms import OllamaLLM
 import re
 
-# === Model and Embedding Setup ===
+# Model is Embedding here.
 embeddings = OllamaEmbeddings(model="deepseek-r1:1.5b")
 model = OllamaLLM(model="deepseek-r1:1.5b")
 
-# === Functions ===
+# Functions are collected here : 
 
 def create_vector_store(pdf_path):
     loader = PyPDFLoader(pdf_path)
@@ -41,20 +41,20 @@ Context: {context}
     chain = prompt | model
     return chain.invoke({"question": question, "context": context})
 
-# === Main Execution ===
+# Main Code
 
 pdf_path = r"Z:\QuizBot\data\00009.pdf"
 
-# Step 1: Load and process the document
+# Retriving the Pdf
 full_docs = create_vector_store(pdf_path)
 
-# Step 2: Accept question from user
+# Taking Input
 question = input("Enter the Question: ")
 
-# Step 3: Retrieve similar documents
+# Retriving Similar data
 related_docs = retrieve_docs(full_docs, question, k=4)
 
-# Step 4: Generate contextual explanation
+# Generating Text
 generated_context = question_pdf(question, related_docs)
 
 print("\nGenerated Context:\n")
