@@ -83,9 +83,59 @@ def generate_mcq(n_question, difficulty, n_option, documents, output_file=None):
 
     return result
 
+# On - Going Works [Converting MCQS text to json File.]
+def generate_json_from_mcqs(mcq_text):
+    prompt = prompt = f"""
+    You will be given a list of multiple choice questions (MCQs) with options. Your task is to convert them into JSON format.
+
+    🟢 Instructions:
+    1. Extract the question text and the actual option texts (not placeholders like "Option A").
+    2. Ensure the options are stored as a list of strings, in the order they appear (A, B, C, D).
+    3. Extract the correct answer text (NOT just the letter like "A" or "B", but the full text of the correct option).
+    4. Format the final output as a JSON list of objects with this structure:
+
+    [
+        {{
+            "question": "Full question text here... it will end with '?' in the end.",
+            "options": ["Option A text", "Option B text", "Option C text", "Option D text"],
+            "answer": "Correct Option Text"
+        }},
+        ...
+    ]
+
+    📝 MCQs:
+    {mcq_text}
+
+    Return only the final JSON. Do not include explanations or markdown.
+    """
+
+    # Use Ollama LLM to generate JSON-formatted MCQs
+    response = model.invoke(prompt)  # model.chat() only if you're bypassing LangChain
+
+    if isinstance(response, dict):
+        response_text = response.get("text", "")
+    else:
+        response_text = response
+
+    
+
+
+    # Remove markdown-style code fences and artifacts
+    cleaned_text = re.sub(r"```(?:json)?", "", response_text, flags=re.IGNORECASE).strip()
+    cleaned_text = re.sub(r"<think>.*?</think>", "", cleaned_text, flags=re.DOTALL | re.IGNORECASE)
+    print("🔍 Raw LLM response:")
+    print(response_text)
+
+    try:
+        json_data = json.dumps(response_text)
+        return json_data
+    except json.JSONDecodeError as e:
+        print(f"❌ Error decoding JSON: {e}")
+        return None
+    
 
 if __name__ == "__main__":
-    pdf_path = r"Z:\QuizBot\data\00009.pdf"  # Replace with your actual path
+    pdf_path = r"D:\Code\QuizBot\data\00009.pdf"  # Replace with your actual path
 
     print("📄 Loading and processing PDF...")
     full_docs = load_full_document(pdf_path)
@@ -98,41 +148,11 @@ if __name__ == "__main__":
 
     print(mcqs)
 
+    question = generate_json_from_mcqs(mcqs)
+
+    print(question)
 
 
-## On - Going Works [Converting MCQS text to json File.]
-# def generate_json_from_mcqs(mcq_text):
-#     prompt = f"""
-#     Below is a list of questions and options from a quiz. Format the questions, options, and answers into JSON with the following format:
 
-#     [
-#         {{
-#             "question": "Question Text",
-#             "options": ["Option A", "Option B", "Option C", "Option D"],
-#             "answer": "Correct Option Text"
-#         }},
-#         ...
-#     ]
-    
-#     MCQs:
-#     {mcq_text}
 
-#     Please return the result in the specified JSON format.
-#     """
 
-#     # Use Ollama LLM to generate JSON-formatted MCQs
-#     response = model.chat(messages=[{"role": "user", "content": prompt}])
-
-#     # Extract the response text
-#     response_text = response['text']
-
-#     # Remove any unnecessary tokens (e.g., <think> or other model artifacts)
-#     cleaned_text = re.sub(r"<think>.*?</think>", "", response_text, flags=re.DOTALL).strip()
-
-#     # Try to parse the cleaned response into a JSON object
-#     try:
-#         json_data = json.loads(cleaned_text)
-#         return json_data
-#     except json.JSONDecodeError as e:
-#         print(f"Error decoding JSON: {e}")
-#         return None
