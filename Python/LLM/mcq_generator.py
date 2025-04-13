@@ -84,15 +84,16 @@ def generate_mcq(n_question, difficulty, n_option, documents, output_file=None):
     return result
 
 # On - Going Works [Converting MCQS text to json File.]
-def generate_json_from_mcqs(mcq_text):
-    prompt = prompt = f"""
+def generate_json_from_mcqs(mcq_text, output_path="output.json"):
+    prompt = f"""
     You will be given a list of multiple choice questions (MCQs) with options. Your task is to convert them into JSON format.
 
     🟢 Instructions:
     1. Extract the question text and the actual option texts (not placeholders like "Option A").
     2. Ensure the options are stored as a list of strings, in the order they appear (A, B, C, D).
     3. Extract the correct answer text (NOT just the letter like "A" or "B", but the full text of the correct option).
-    4. Format the final output as a JSON list of objects with this structure:
+    4. If the Correct answer is not given in the extract... then find the answer in that.
+    5. Format the final output as a JSON list of objects with this structure:
 
     [
         {{
@@ -109,33 +110,30 @@ def generate_json_from_mcqs(mcq_text):
     Return only the final JSON. Do not include explanations or markdown.
     """
 
-    # Use Ollama LLM to generate JSON-formatted MCQs
-    response = model.invoke(prompt)  # model.chat() only if you're bypassing LangChain
+    response = model.invoke(prompt)
 
     if isinstance(response, dict):
         response_text = response.get("text", "")
     else:
         response_text = response
 
-    
-
-
-    # Remove markdown-style code fences and artifacts
     cleaned_text = re.sub(r"```(?:json)?", "", response_text, flags=re.IGNORECASE).strip()
     cleaned_text = re.sub(r"<think>.*?</think>", "", cleaned_text, flags=re.DOTALL | re.IGNORECASE)
-    print("🔍 Raw LLM response:")
-    print(response_text)
 
     try:
-        json_data = json.dumps(response_text)
+        json_data = json.loads(cleaned_text)  # Parse the actual JSON
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(json_data, f, indent=4, ensure_ascii=False)
+        print(f"✅ JSON file saved to {output_path}")
         return json_data
     except json.JSONDecodeError as e:
         print(f"❌ Error decoding JSON: {e}")
         return None
+
     
 
 if __name__ == "__main__":
-    pdf_path = r"D:\Code\QuizBot\data\00009.pdf"  # Replace with your actual path
+    pdf_path = r"Z:\QuizBot\data\00009.pdf"  # Replace with your actual path
 
     print("📄 Loading and processing PDF...")
     full_docs = load_full_document(pdf_path)
@@ -148,9 +146,9 @@ if __name__ == "__main__":
 
     print(mcqs)
 
-    question = generate_json_from_mcqs(mcqs)
+    question_data = generate_json_from_mcqs(mcqs, output_path="mcq_output.json")
 
-    print(question)
+    print(question_data)
 
 
 
