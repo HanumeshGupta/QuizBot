@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - QuizBot</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    :root {
+  --navbar-bg: #00899f;
+  --navbar-link: white;
+  --navbar-link-hover: #b2ebf2;
+  --navbar-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+  background-color: var(--navbar-bg);
+  color: var(--navbar-link);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  box-shadow: 0 2px 8px var(--navbar-shadow);
+}
+.logo {
+  height: 40px;
+}
+
+
+.navbar nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: var(--navbar-link);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar nav a:hover {
+  color: var(--navbar-link-hover);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar nav {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar nav a {
+    margin: 10px 0;
+  }
+}
+
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+    <!-- Header -->
+    <header class="navbar">
+    
+      <a href="{{ url_for('quiz') }}"><img src="{{ url_for('static', filename='image/logo.png') }}" alt="QuizBot Logo" class="logo"/></a>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    
+  
+      <nav>
+        <a href="{{ url_for('quiz') }}">Home</a>
+        <a href="{{ url_for('pricing') }}">Pricing</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+      </nav>
+    </header>
+
+  <!-- Hero Section -->
+  <section class="bg-white py-12 text-center">
+    <h2 class="text-4xl font-bold mb-4">About QuizBot</h2>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+      QuizBot is a smart quiz generator tool built to help educators, students, and businesses create engaging quizzes effortlessly from PDFs and documents.
+    </p>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="py-12 px-6 max-w-4xl mx-auto">
+    <h3 class="text-2xl font-semibold mb-4 text-[#00899f]">Our Mission</h3>
+    <p class="text-gray-700 mb-6">
+      Our mission is to simplify assessment creation. Whether you're a teacher preparing exams or a content creator building interactive content, QuizBot automates question generation using AI, helping save time and boost engagement.
+    </p>
+
+    <h3 class="text-2xl font-semibold mb-4 text-[#00899f]">How It Works</h3>
+    <ul class="list-disc list-inside space-y-2 text-gray-700">
+      <li>Upload a PDF or document.</li>
+      <li>Let QuizBot generate MCQs and quizzes using smart AI logic.</li>
+      <li>Customize, preview, and share quizzes easily.</li>
+    </ul>
+  </section>
+
+  <!-- Team Section -->
+  <section class="bg-white py-12">
+    <div class="max-w-5xl mx-auto text-center">
+      <h3 class="text-3xl font-bold mb-8">Meet the Team</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 px-6">
+        <div class="bg-gray-100 p-6 rounded-lg shadow">
+          <h4 class="text-lg font-bold">Tanisha Srivasatava</h4>
+          <p class="text-sm text-gray-600">Founder & Product Lead</p>
+        </div>
+        
+        <div class="bg-gray-100 p-6 rounded-lg shadow">
+          <h4 class="text-lg font-bold">Hanumesh Gupta</h4>
+          <p class="text-sm text-gray-600">AI Developer</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow">
+          <h4 class="text-lg font-bold">Aditya Gupta</h4>
+          <p class="text-sm text-gray-600">Frontend Engineer</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow">
+          <h4 class="text-lg font-bold">Harsh Tripathi</h4>
+          <p class="text-sm text-gray-600">Backened Engineer</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 py-6">
+    &copy; 2025 QuizBot. All rights reserved.
+  </footer>
+
+</body>
+</html>
