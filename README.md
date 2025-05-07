@@ -65,15 +65,12 @@ Transform your study sessions into interactive learning with **QuizBot**! This A
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/QuizBot.git
+git clone https://github.com/HanumeshGupta/QuizBot.git
 cd QuizBot
 
 # Create and activate virtual environment
 python -m venv venv
 source venv/bin/activate   # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
 
 # Start the Flask development server
 python app.py
@@ -112,12 +109,12 @@ QuizBot/
 
 ## 🤝 Contributors
 
-| Name    | Role                          | GitHub                                       |
-| ------- | ----------------------------- | -------------------------------------------- |
-| Harsh   | 🔌 Backend Connectivity       | [@harshdev](https://github.com/harshdev)     |
-| You     | 🧠 LLM Integration & Pipeline | [@yourhandle](https://github.com/yourhandle) |
-| Aditya  | 💻 Website Development        | [@adityadev](https://github.com/adityadev)   |
-| Tanisha | 📋 Project Management         | [@tanishapm](https://github.com/tanishapm)   |
+| Name               | Role                          | GitHub                                       |
+| -------            | ----------------------------- | -------------------------------------------- |
+| Harsh Tripathi     | 🔌 Backend Connectivity       | [@HarshTripathi](https://github.com/HarshTripathi19)     |
+| Hanumesh Gupta     | 🧠 LLM Integration & Pipeline | [@HanumeshGupta](https://github.com/HanumeshGupta) |
+| Aditya Gupta       | 💻 Website Development        | [@AdityaGupta](https://github.com/xAdityaxx)   |
+| Tanisha Srivastava | 📋 Project Management         | [@TanishaSrivastava](https://github.com/Tanisha3005)   |
 
 ---
 
@@ -135,6 +132,5 @@ QuizBot/
 
 ---
 
-## 📝 License
-This project is licensed under the MIT License.
+
 
