@@ -94,7 +94,8 @@ python app.py
 ---
 
 ## 📂 Project Structure
-  
+
+``` 
 QuizBot/
 ├── app.py              # Main Flask backend
 ├── main.py             # LLM processing and generation logic
@@ -105,3 +106,35 @@ QuizBot/
 ├── uploads/            # User-uploaded PDFs
 ├── requirements.txt    # Python dependencies
 └── README.md           # This file!
+```
+
+---
+
+## 🤝 Contributors
+
+| Name    | Role                          | GitHub                                       |
+| ------- | ----------------------------- | -------------------------------------------- |
+| Harsh   | 🔌 Backend Connectivity       | [@harshdev](https://github.com/harshdev)     |
+| You     | 🧠 LLM Integration & Pipeline | [@yourhandle](https://github.com/yourhandle) |
+| Aditya  | 💻 Website Development        | [@adityadev](https://github.com/adityadev)   |
+| Tanisha | 📋 Project Management         | [@tanishapm](https://github.com/tanishapm)   |
+
+---
+
+## 🔮 Future Enhancements
+
+- User login & history tracking
+
+- MCQ export (PDF/CSV)
+
+- OCR/image-based PDF support
+
+- Quiz scoring + gamification
+
+- Deployment to Render/Heroku/AWS
+
+---
+
+## 📝 License
+This project is licensed under the MIT License.
+
