@@ -11,7 +11,7 @@ import re
 
 
 
-# ChatBot 
+# ChatBot Working
 
 # Model is Embedding here.
 embeddings = OllamaEmbeddings(model="deepseek-r1:1.5b")
@@ -49,7 +49,7 @@ Context: {context}
     return chain.invoke({"question": question, "context": context})
 
 
-## MCQ Generator 
+## MCQ Generator Working
 
 embeddings = OllamaEmbeddings(model="deepseek-r1:1.5b")
 model = OllamaLLM(model="deepseek-r1:1.5b")
